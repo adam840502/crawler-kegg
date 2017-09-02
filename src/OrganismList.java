@@ -52,8 +52,6 @@ public class OrganismList {
 			//					or.commomName+", "+or.keyWords);
 			list.add(or);
 		}
-		
-		lineSc.close();
 	}
 
 	List<Organ> search(String keyword){
