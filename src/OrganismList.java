@@ -44,7 +44,16 @@ public class OrganismList {
 				}
 				keyWordsRaw = word;
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				try {
+					Main.logFos.write(("fail at Organism.Organism(String data):\n").getBytes());
+					Main.logFos.write(13);
+					Main.logFos.write('\n');
+					Main.logFos.write(13);
+					Main.logFos.write('\n');
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				e.printStackTrace();
 			}
 			Organ or = new Organ(TNumber, org, NameRaw, keyWordsRaw);
@@ -52,6 +61,8 @@ public class OrganismList {
 			//					or.commomName+", "+or.keyWords);
 			list.add(or);
 		}
+		
+		lineSc.close();
 	}
 
 	List<Organ> search(String keyword){
@@ -116,7 +127,20 @@ class Organ{
 				this.scientificName = word;
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			try {
+				Main.logFos.write(("fail at Organ.Organ:\n").getBytes());
+				Main.logFos.write(("\torg: " + org).getBytes());
+				Main.logFos.write(13);
+				Main.logFos.write('\n');
+				Main.logFos.write(e.getMessage().getBytes());
+				Main.logFos.write(13);
+				Main.logFos.write('\n');
+				Main.logFos.write(13);
+				Main.logFos.write('\n');
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
 		}
 		
@@ -132,7 +156,20 @@ class Organ{
 				}
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			try {
+				Main.logFos.write(("fail at Organ.Organ:\n").getBytes());
+				Main.logFos.write(("\torg: " + org).getBytes());
+				Main.logFos.write(13);
+				Main.logFos.write('\n');
+				Main.logFos.write(e.getMessage().getBytes());
+				Main.logFos.write(13);
+				Main.logFos.write('\n');
+				Main.logFos.write(13);
+				Main.logFos.write('\n');
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
 		}
 		keywords.add(word);

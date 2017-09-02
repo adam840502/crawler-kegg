@@ -1,50 +1,97 @@
-import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Node;
 
 public class Main {
-
+	
+	final public static String OrganismUrl = "http://rest.kegg.jp/list/organism";
+	final public static String pathwayUrl = "http://rest.kegg.jp/list/pathway/";
+	final public static String moduleUrl = "http://rest.kegg.jp/list/module/";
+	final public static String linkUrl = "http://rest.kegg.jp/link/";
+	final public static String orthologyUrl = "http://www.genome.jp/dbget-bin/get_linkdb?-t+orthology+";
+	
+	public static FileOutputStream logFos;
+	
 	public static void main(String[] args) {
 		
-		System.out.println("Searching for organism list...");
+		try {
+			logFos = new FileOutputStream(new File("log.txt"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		OrganismList ol = makeOrganismList();
 		
 		Scanner sc = new Scanner(System.in);
 		System.out.print("enter keywords: ");
 		String keyword = sc.nextLine();
 		
-		search(ol, keyword);
+		List<Organ> match = search(ol, keyword);
 		
+		System.out.print("enter target index(use \',\' to separate targets): ");
+		String target = sc.nextLine();
 		
+		startRequests(target, match);
+		sc.close();
 	}
 	
+	static void startRequests(String target, List<Organ> match) {
+		
+		//parse request
+		String[] targetArr = target.replace(" ", "").split(",");
+		int[] targetIntArr = new int[targetArr.length];
+		for(int i=0;i<targetArr.length;++i){
+			targetIntArr[i] = Integer.parseInt(targetArr[i])-1;
+		}
+		
+		//get url
+		for(int targetInt : targetIntArr){
+			Organ or = match.get(targetInt);
+			ListCrawler lc = new ListCrawler(or);
+			lc.start();
+			
+		}
+	}
+
 	/**
 	 * title: makeOrganismList
 	 * param: 
 	 * return: OrganismList object of the list
 	 */
 	static OrganismList makeOrganismList(){
+		System.out.println("Searching for organism list...");
 		OrganismList ol = new OrganismList();
 		try {
-			Connection con = Jsoup.connect("http://rest.kegg.jp/list/organism");
+			Connection con = Jsoup.connect(OrganismUrl);
 			String s = con.execute().body();
 			ol = new OrganismList(s);
 		} catch (IOException e) {
+			try {
+				logFos.write("fail at makeOrganismList".getBytes());
+				Main.logFos.write(13);
+				Main.logFos.write('\n');
+				Main.logFos.write(e.getMessage().getBytes());
+				Main.logFos.write(13);
+				Main.logFos.write('\n');
+				Main.logFos.write(13);
+				Main.logFos.write('\n');
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
 		}
 		return ol;
 	}
 	
-	static boolean search(OrganismList ol, String keyword){
-		boolean ret = false;
+	static List<Organ> search(OrganismList ol, String keyword){
 		List<Organ> match = ol.search(keyword);
 		if(match.isEmpty()){
 			System.out.println("no matches.");
@@ -63,8 +110,7 @@ public class Main {
 				System.out.println();
 				++i;
 			}
-			ret = true;
 		}
-		return ret;
+		return match;
 	}
 }
