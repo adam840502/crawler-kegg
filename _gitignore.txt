@@ -20,3 +20,4 @@ result/kegg-Oryza sativa japonica(T01015)-pathway.txt
 result/kegg-Oryza sativa japonica(T02163)-module.txt
 result/kegg-Oryza sativa japonica(T02163)-pathway.txt
 log.txt
+*.txt
