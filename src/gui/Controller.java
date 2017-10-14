@@ -74,14 +74,14 @@ public class Controller implements Initializable{
         //moduleBox.setSelected(true);
         geneAbbrevBox.setSelected(true);
         ncbiBox.setSelected(true);
-        searchingField.setText("Ory");
+        //searchingField.setText("Ory");
 
         exe = Executors.newFixedThreadPool(THREAD_NUMBER);
         tasks = new ArrayList<>();
 
-        for(Node n : pane.getChildren()){
+        /*for(Node n : pane.getChildren()){
             System.out.println(n.toString());
-        }
+        }*/
     }
 
     public void addButtonClicked(){

@@ -1,0 +1,21 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="kegg-crawler-gui">
+    <output-path>$PROJECT_DIR$/out/artifacts/kegg_crawler_gui</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="gui.Main" />
+        <option name="description" value="" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="title" value="" />
+        <option name="vendor" value="" />
+        <option name="version" value="" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="kegg-crawler-gui.jar">
+        <element id="module-output" name="Kegg crawler" />
+        <element id="library" level="project" name="jsoup-1.10.3" />
+      </element>
+    </root>
+  </artifact>
+</component>
